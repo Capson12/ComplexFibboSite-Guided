@@ -1,0 +1,16 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+ - docker build -t rualoguh/COMPLEXFIBBOSITE-GUIDED-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run  -e CI=true rualoguh/rualoguh/COMPLEXFIBBOSITE-GUIDED-test npm test
+
+after_success:
+  - docker build -rualoguh/multi-client ./client
+  - docker build -rualoguh/multi-client ./nginx
+  - docker build -rualoguh/multi-client ./server
+  - docker build -rualoguh/multi-client ./worker
+
